@@ -3,7 +3,7 @@ def gv
 pipeline {
     agent any
     environements(
-        VERSION = 1.0.0
+        VERSION = '1.0.0'
         SERVER_CREDENTIALS=credentials('docker-hub-cred')
     )
     tools{
