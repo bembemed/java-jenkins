@@ -12,7 +12,7 @@ pipeline {
     parameters {
         // string(name:'VERSION', defaultValue: '' , desc : '')
         choice(name:'VERSION', choices:['1.0','1.1'] , description : '')
-        booleanParam(name:'executeTest', defaultValue: '' , desctiption : '')
+        booleanParam(name:'executeTest', defaultValue: '' , description : '')
         
     }
     stages {
