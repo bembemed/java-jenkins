@@ -42,8 +42,19 @@ pipeline {
                     params.executeTest
                 }
             }
+            input{
+                messgae "select the deploying"
+                ok "done"
+                parameters {
+                    // string(name:'VERSION', defaultValue: '' , desc : '')
+                    choice(name:'type', choices:['test','deploy'] , description : '')
+                }
+                
+            }
             steps {
+                
                 echo "deplying application ..."
+                echo "mode deployinh is ${type}"
                 // echo "credentials is ${SERVER_CREDENTIALS}"
                 // sh "${SERVER_CREDENTILAS}"
 
