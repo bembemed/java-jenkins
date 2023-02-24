@@ -42,7 +42,7 @@ pipeline {
                     params.executeTest
                 }
             }
-            input{
+            input {
                 messgae "select the deploying"
                 ok "done"
                 parameters {
