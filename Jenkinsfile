@@ -2,17 +2,17 @@ def gv
 
 pipeline {
     agent any
-    environements{
+    environment{
         VERSION = '1.0.0'
         SERVER_CREDENTIALS=credentials('docker-hub-cred')
     }
     tools {
-        maven : 'maven-3.9'
+        maven  'maven-3.9'
     }
     parameters {
         // string(name:'VERSION', defaultValue: '' , desc : '')
-        choice(name:'VERSION', choices:['1.0','1.1'] , desc : '')
-        booleanParam(name:'executeTest', defaultValue: '' , desc : '')
+        choice(name:'VERSION', choices:['1.0','1.1'] , description : '')
+        booleanParam(name:'executeTest', defaultValue: '' , desctiption : '')
         
     }
     stages {
@@ -35,7 +35,7 @@ pipeline {
             }
             
         }  
-        stage("test") {
+        stage("builf") {
             when {
                 expression{
                     BRANCH_NAME = 'dev'
