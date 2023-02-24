@@ -2,37 +2,72 @@ def gv
 
 pipeline {
     agent any
-    stages {
-        stage("init") {
-            steps {
-                script {
-                    gv = load "script.groovy"
-                }
+    environements(
+        VERSION = 1.0.0
+        SERVER_CREDENTIALS=credentials('docker-hub-cred')
+    )
+    tools{
+        maven : 'maven-3.9'
+    }
+    parameters{
+        // string(name:'VERSION', defaultValue: '' , desc : '')
+        choice(name:'VERSION', choices:['1.0','1.1'] , desc : '')
+        booleanParam(name:'executeTest', defaultValue: '' , desc : '')
+        
+    }
+    stages{
+        stage("build"){
+            steps{
+                echo "building application ..."
+                echo "version of application is ${VERSION}"
+                sh 'mvn install'
             }
         }
-        stage("build jar") {
-            steps {
-                script {
-                    echo "building jar"
-                    //gv.buildJar()
+        stage("test") {
+            when{
+                expression{
+                    BRANCH_NAME = 'dev'
+                    params.executeTest
                 }
             }
-        }
-        stage("build image") {
-            steps {
-                script {
-                    echo "building image"
-                    //gv.buildImage()
+            steps{
+                echo "testing application ..."
+            }
+            
+        }  
+        stage("test") {
+            when{
+                expression{
+                    BRANCH_NAME = 'dev'
+                    params.executeTest
                 }
             }
-        }
-        stage("deploy") {
-            steps {
-                script {
-                    echo "deploying"
-                    //gv.deployApp()
-                }
+            steps{
+                echo "deplying application ..."
+                // echo "credentials is ${SERVER_CREDENTIALS}"
+                // sh "${SERVER_CREDENTILAS}"
+
+                // withCredentials([
+                //     usernamePasswordCredentails:'docker-hub-cred',usernameVariable: USERNAME , passwordVariable: PASS
+                // ]){
+                //     sh 'some script ${USERNAME} ${PWD}'
+                // }
+                echo "version of deploying is ${params.VERSION}"
+
+                
             }
+            
+        }  
+    } 
+    post{
+        always{
+
         }
-    }   
+        success{
+
+        }
+        failed{
+
+        }
+    } 
 }
