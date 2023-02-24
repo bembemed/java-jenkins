@@ -2,47 +2,47 @@ def gv
 
 pipeline {
     agent any
-    environements(
+    environements{
         VERSION = '1.0.0'
         SERVER_CREDENTIALS=credentials('docker-hub-cred')
-    )
-    tools{
+    }
+    tools {
         maven : 'maven-3.9'
     }
-    parameters{
+    parameters {
         // string(name:'VERSION', defaultValue: '' , desc : '')
         choice(name:'VERSION', choices:['1.0','1.1'] , desc : '')
         booleanParam(name:'executeTest', defaultValue: '' , desc : '')
         
     }
-    stages{
-        stage("build"){
-            steps{
+    stages {
+        stage("build") {
+            steps {
                 echo "building application ..."
                 echo "version of application is ${VERSION}"
                 sh 'mvn install'
             }
         }
         stage("test") {
-            when{
-                expression{
+            when {
+                expression {
                     BRANCH_NAME = 'dev'
                     params.executeTest
                 }
             }
-            steps{
+            steps {
                 echo "testing application ..."
             }
             
         }  
         stage("test") {
-            when{
+            when {
                 expression{
                     BRANCH_NAME = 'dev'
                     params.executeTest
                 }
             }
-            steps{
+            steps {
                 echo "deplying application ..."
                 // echo "credentials is ${SERVER_CREDENTIALS}"
                 // sh "${SERVER_CREDENTILAS}"
@@ -59,15 +59,15 @@ pipeline {
             
         }  
     } 
-    post{
-        always{
+    //post{
+    //    always{
 
-        }
-        success{
+      //  }
+        //success{
 
-        }
-        failed{
+        //}
+         //failed{
 
-        }
-    } 
+        //}
+    //} 
 }
