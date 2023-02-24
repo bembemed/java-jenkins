@@ -35,7 +35,7 @@ pipeline {
             }
             
         }  
-        stage("build") {
+        stage("deploy") {
             input {
                 message "select the deploying"
                 ok "done"
