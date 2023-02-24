@@ -35,15 +35,9 @@ pipeline {
             }
             
         }  
-        stage("builf") {
-            when {
-                expression{
-                    BRANCH_NAME = 'dev'
-                    params.executeTest
-                }
-            }
+        stage("build") {
             input {
-                messgae "select the deploying"
+                message "select the deploying"
                 ok "done"
                 parameters {
                     // string(name:'VERSION', defaultValue: '' , desc : '')
